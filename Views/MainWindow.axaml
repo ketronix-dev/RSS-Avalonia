@@ -1,0 +1,8 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="RSS_Avalonia.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Width="500" Height="500"
+        Title="RSS Client"
+        Content="{Binding List}">
+</Window>
