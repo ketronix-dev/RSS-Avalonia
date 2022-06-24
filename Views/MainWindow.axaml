@@ -4,5 +4,5 @@
         Icon="/Assets/avalonia-logo.ico"
         Width="500" Height="500"
         Title="RSS Client"
-        Content="{Binding List}">
+        Content="{Binding Content}">
 </Window>

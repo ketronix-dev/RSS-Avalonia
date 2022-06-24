@@ -8,6 +8,7 @@ namespace RSS_Avalonia.Models
         public string Description { get; set; }
         public string Title { get; set; }
         public string Link { get; set; }
+        public DateTime? Data { get; set; }
 
         public void OpenInBrowser(string url)
         {

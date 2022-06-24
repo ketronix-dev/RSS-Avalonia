@@ -7,6 +7,7 @@ namespace RSS_Avalonia.Views
         public MainWindow()
         {
             InitializeComponent();
+            this.InvalidateVisual();
         }
     }
 }

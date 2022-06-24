@@ -1,20 +1,19 @@
 using CodeHollow.FeedReader;
-using Pastel;
 using System.Net.NetworkInformation;
 using System.Text.RegularExpressions;
+using RSS_Avalonia.Models;
 
 namespace Feed
 {
     public static class FeedItems
     {
-        public static List<string[]> GetList(string url)
+        public static List<FeedPost> GetList(string url)
         {
-            var items = new List<string[]> {};
+            var items = new List<FeedPost> {};
             var ping = new Ping();
-
             var source = new Uri(url);
             
-            var isAlive = ping.SendPingAsync(source.Host, 500);
+            var isAlive = ping.SendPingAsync(source.Host, 100);
             if (isAlive.Result.Status == IPStatus.Success)
             {
                 var readerTask = FeedReader.ReadAsync(url);
@@ -22,16 +21,24 @@ namespace Feed
                 
                 foreach (var item in readerTask.Result.Items)
                 {
-                    Console.WriteLine(item.PublishingDate);
-                    string[] post = {item.Title, Regex.Replace(item.Description,"<.*?>|&.*?;", string.Empty).TrimStart('\n'), item.Link};
-                    items.Add(post); //Pastel("#116bba")  Pastel("#11ba79")
+                    items.Add(new FeedPost {Title = item.Title,
+                        Description = Regex.Replace(item.Description,"<.*?>|&.*?;", string.Empty).TrimStart('\n'),
+                        Link = item.Link,
+                        DatePublish = item.PublishingDate
+                    });
                 }
-                return items;
+                
+                var orderedNumbers = items.OrderByDescending(n => n.DatePublish);
+                
+                return orderedNumbers.ToList();
             }
             else
             {
-                string[] error = { "Ошибка. Нет связи с источником фидов." };
-                items.Add(error);  
+                items.Add(new FeedPost {Title = "Error",
+                    Description = $"Во время подключения к {url} произошла ошибка",
+                    Link = url,
+                    DatePublish = null
+                });  
                 return items;
             }
 
