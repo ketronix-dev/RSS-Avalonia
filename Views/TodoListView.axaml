@@ -5,12 +5,18 @@
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="300"
              x:Class="RSS_Avalonia.Views.TodoListView">
     <DockPanel>
-        <Button Width="100" DockPanel.Dock="Top" Command="{Binding $parent[Window].DataContext.AddItem}">Refresh</Button>
+        <Button Width="100" HorizontalAlignment="Left" DockPanel.Dock="Top" Command="{Binding $parent[Window].DataContext.AddItem}" Margin="5">Refresh</Button>
         <ScrollViewer>
-        <ItemsControl Items="{Binding Items}" Margin="5">
+        <ItemsControl Items="{Binding Items}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid ColumnDefinitions="Auto,*">
+                    <Border Background="#2a3145"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            CornerRadius="2"
+                            Padding="4"
+                            Margin="3">
+                        <Grid ColumnDefinitions="Auto,*">
                             <Grid Grid.Column="1" RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" Margin="5">
                                 <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Title}" FontWeight="Bold" />
                                 <TextBlock Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Height="60" Text="{Binding Description}" />
@@ -18,6 +24,7 @@
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Data}"></TextBlock>
                             </Grid>
                         </Grid>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

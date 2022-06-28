@@ -40,13 +40,15 @@ namespace RSS_Avalonia.ViewModels
         
         public static IEnumerable<TodoItem> Refresh()
         {
+            List<TodoItem> items = new List<TodoItem>() { };
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true
             };
-            
-            var items = JsonSerializer.Deserialize<List<TodoItem>>(File.ReadAllText(Environment.CurrentDirectory + "/feeds.json"), options);
-            
+            if (File.ReadAllText(Environment.CurrentDirectory + "/feeds.json") != "")
+            {
+                items = JsonSerializer.Deserialize<List<TodoItem>>(File.ReadAllText(Environment.CurrentDirectory + "/feeds.json"), options);   
+            }
             if (File.Exists(Environment.CurrentDirectory + "/Sources.opml") == true)
             {
                 var urls = Parser.ParseAtrribute(Environment.CurrentDirectory + "/Sources.opml","xmlUrl");
@@ -58,7 +60,7 @@ namespace RSS_Avalonia.ViewModels
                         {
                             var item = new TodoItem { 
                                 Title = post.Title,
-                                Description = post.Description,
+                                Description = post.Description.Trim(),
                                 Link = post.Link,
                                 Data = post.DatePublish
                             };
@@ -67,7 +69,7 @@ namespace RSS_Avalonia.ViewModels
                                 items.Add(new TodoItem
                                 {
                                     Title = post.Title,
-                                    Description = post.Description,
+                                    Description = post.Description.Trim(),
                                     Link = post.Link,
                                     Data = post.DatePublish
                                 });

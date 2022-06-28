@@ -7,14 +7,17 @@ namespace RSS_Avalonia.Services
     {
         public IEnumerable<TodoItem> Posts()
         {
+            List<TodoItem> items = new List<TodoItem>() { };
             FileStream fs = new FileStream(Environment.CurrentDirectory + "/feeds.json", FileMode.OpenOrCreate);
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true
             };
-            
-            var items = JsonSerializer.Deserialize<List<TodoItem>>(File.ReadAllText(Environment.CurrentDirectory + "/feeds.json"), options);
-            
+            if (File.ReadAllText(Environment.CurrentDirectory + "/feeds.json") != "")
+            {
+                items = JsonSerializer.Deserialize<List<TodoItem>>(File.ReadAllText(Environment.CurrentDirectory + "/feeds.json"), options);   
+            }
+
             return items.OrderByDescending(n => n.Data);
         }
     }
